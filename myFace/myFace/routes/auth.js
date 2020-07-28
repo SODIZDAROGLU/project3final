@@ -5,17 +5,14 @@ const User = mongoose.model('User')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = require('../keys')
+const requireLogin = require('../middleware/requireLogin')
 
 
 
-router.get('/',(req,res)=>{
-    res.send("hello")
-})
-
-
+//sign up 
 router.post('/signup',(req,res)=>{
   
-    const {name,email,password,pic} = req.body 
+    const {name,email,password} = req.body 
     if(!email || !password || !name){
        return res.status(422).json({error:"please add all the fields"})
       }
@@ -31,17 +28,12 @@ router.post('/signup',(req,res)=>{
                 email,
                 password:hashedpassword,
                 name,
-                pic
+              
             })
     
             user.save()
             .then(user=>{
-                // transporter.sendMail({
-                //     to:user.email,
-                //     from:"no-reply@insta.com",
-                //     subject:"signup success",
-                //     html:"<h1>welcome to instagram</h1>"
-                // })
+              
                 res.json({message:"saved successfully"})
             })
             .catch(err=>{
@@ -54,6 +46,8 @@ router.post('/signup',(req,res)=>{
     console.log(err)
   })
 })
+
+
 //user will be making  a host of quest letters sign in
 router.post('/signin',(req,res)=>{
     const {email,password} = req.body
@@ -65,14 +59,14 @@ router.post('/signin',(req,res)=>{
         if(!savedUser){
            return res.status(422).json({error:"Invalid Email or password"})
         }
-        //comparing password
+        //comparing password, sending token
         bcrypt.compare(password,savedUser.password)
         .then(doMatch=>{
             if(doMatch){
                 //res.json({message:"successfully signed in"})
                const token = jwt.sign({_id:savedUser._id},JWT_SECRET)
-               const {_id,name,email,followers,following,pic} = savedUser
-               res.json({token,user:{_id,name,email,followers,following,pic}})
+             
+               res.json({token})
             }
             else{
                 return res.status(422).json({error:"Invalid Email or password"})
