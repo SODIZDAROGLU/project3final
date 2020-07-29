@@ -1,13 +1,10 @@
 const express = require ("express")
 const app = express()
+const mongoose = require("mongoose")
 const PORT = 5000
 const {MONGOURI} = require('./keys')
-const mongoose = require("mongoose")
 
-require('./models/user')
 
-app.use(express.json())
-app.use(require('./routes/auth'))
 
 
 mongoose.connect(MONGOURI,{
@@ -17,12 +14,20 @@ mongoose.connect(MONGOURI,{
 })
 //iivVzT9WFgtQdHaX
 mongoose.connection.on('connected',()=>{
-    console.log("connected to mongo baby...!!!")
+    console.log("connected to mongo haha...!!!")
 })
 
 mongoose.connection.on('error',(err)=>{
-    console.log("err connecting body", err)
+    console.log("err connecting my friend", err)
 })
+
+require('./models/user')
+require('./models/post')
+
+app.use(express.json())
+
+app.use(require('./routes/auth'))
+app.use(require('./routes/post'))
 
 app.listen(PORT,()=>{
     console.log("server is running on",PORT)
