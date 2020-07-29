@@ -7,10 +7,6 @@ const {MONGOURI} = require('./keys')
 
 
 
-
-
-
-
 mongoose.connect(MONGOURI,{
     useNewUrlParser:true,
     useUnifiedTopology: true
@@ -18,11 +14,11 @@ mongoose.connect(MONGOURI,{
 })
 //iivVzT9WFgtQdHaX
 mongoose.connection.on('connected',()=>{
-    console.log("connected to mongo baby...!!!")
+    console.log("connected to mongo haha...!!!")
 })
 
 mongoose.connection.on('error',(err)=>{
-    console.log("err connecting body", err)
+    console.log("err connecting my friend", err)
 })
 
 require('./models/user')

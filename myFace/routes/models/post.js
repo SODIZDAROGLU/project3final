@@ -1,19 +1,25 @@
 const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema.Types
-const userSchema = new mongoose.Schema({
-    name:{
+
+
+const postSchema = new mongoose.Schema({
+    title:{
         type:String,
         required:true
     },
-    email:{
+    body:{
         type:String,
         required:true
     },
-    password:{
+    photo:{
         type:String,
-        required:true
+        required:false
     },
- 
+  
+    postedBy:{
+       type:ObjectId,
+       ref:"User"
+    }
 })
 
-mongoose.model("User",userSchema)
+mongoose.model("Post",postSchema)
