@@ -11,7 +11,7 @@ mongoose.connect(MONGOURI,{
 
 })
 mongoose.connection.on('connected',()=>{
-    console.log("conneted to mongo haha....!!!!")
+    console.log("conneted to mongo yeahh")
 })
 mongoose.connection.on('error',(err)=>{
     console.log("err connecting",err)
